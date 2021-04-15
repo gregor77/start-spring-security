@@ -23,4 +23,5 @@ Attack에 성공하려면 공격자는, 사용자의 Web Browser가 “조작된
   “다른 Session(인증 받지 아니한 location)”에서 온 Request이면 reject 수행**
 
 ## 참고
-*  [spring security docs](https://docs.spring.io/spring-security/site/docs/current/reference/html5/)
+* [spring security web example](https://spring.io/guides/gs/securing-web/)
+* [spring security docs](https://docs.spring.io/spring-security/site/docs/current/reference/html5/)
