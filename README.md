@@ -1,4 +1,11 @@
-# Spring Security start project
+# Spring Security Start Project
+[Spring security 문서](https://docs.spring.io/spring-security/site/docs/current/reference/html5/)를 참고하면서, 필요한 부분을 실습과 진행하는 
+스터디용 프로젝트입니다.
+
+## 목표
+* Spring security core 기본 이해 및 unit test 작성
+* Spring security 활용 - user 정보를 cache 또는 db repository 활용
+* Spring security OAuth2 및 JWT 적용
 
 ## 실습
 ## 5.1. Authentication
