@@ -59,3 +59,4 @@ postman을 활용하여 API를 직접 테스트해도 무방하다.
 * [spring security web example](https://spring.io/guides/gs/securing-web/)
 * [spring security docs](https://docs.spring.io/spring-security/site/docs/current/reference/html5/)
 * [spring security test 블로그](https://dongdd.tistory.com/175)
+* [java8 multi thread exception handling](https://stackoverflow.com/questions/39515447/example-of-multithreading-of-java-8/39518519)
