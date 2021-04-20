@@ -136,7 +136,7 @@ public class SecurityContextHolderTest {
 
         @Test
         @DisplayName("SecurityContextHolder에서 threadLocal mode변경을 통해서, multi thread에서 동기화 가능")
-        void withGlobalMode() throws InterruptedException {
+        void withGlobalMode() {
             SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
             setMockAuthentication(ANY_USER, ANY_PASSWORD, USER_ROLE);
 
