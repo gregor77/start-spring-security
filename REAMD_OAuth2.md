@@ -10,3 +10,4 @@ spring security는 authorization server를 제공하지 않는다. spring securi
 
 # 나중에 확인해볼 글
 * [JWT & Spring Security](https://brunch.co.kr/@springboot/491)
+* [embedded tomcat session clustering](https://oingdaddy.tistory.com/149)
