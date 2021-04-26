@@ -1,5 +1,6 @@
 package com.rhyno.startsecurity.password;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -87,6 +88,23 @@ class SamplePasswordEncoderTest {
                     () -> SamplePasswordEncoder.delegatingPasswordEncoder().matches(ANY_PASSWORD, passwordWithoutId));
 
             assertThat(error.getMessage()).isEqualTo("There is no PasswordEncoder mapped for the id \"null\"");
+        }
+    }
+
+    @Disabled
+    @Nested
+    class defaultBcryptPassword {
+        @Test
+        void showEncodedPassword() {
+            // data.sql에 bcrpyt로 인코딩된 password를 입력하기 위해서 단위테스트로 수행
+            String result = subject.getEncodedPassword(PasswordEncodeType.BCRYPT, "1111");
+            System.out.println(result);
+
+            result = subject.getEncodedPassword(PasswordEncodeType.BCRYPT, "2222");
+            System.out.println(result);
+
+            result = subject.getEncodedPassword(PasswordEncodeType.BCRYPT, "3333");
+            System.out.println(result);
         }
     }
 }

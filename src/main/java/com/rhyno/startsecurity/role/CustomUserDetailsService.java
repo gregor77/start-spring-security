@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -25,11 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userService.getUser(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User is not found. email=" + email));
 
-        List<SimpleGrantedAuthority> authorities = user.getRoles().stream()
-                .flatMap(role -> role.getPrivileges().stream())
-                .map(privilege -> new SimpleGrantedAuthority(privilege.getName()))
-                .collect(Collectors.toList());
-
         return new org.springframework.security.core.userdetails.User(
                 user.getName(),
                 user.getPassword(),
@@ -37,8 +32,24 @@ public class CustomUserDetailsService implements UserDetailsService {
                 true,
                 true,
                 true,
-                authorities
+                Stream.concat(
+                        getRoles(user.getRoles()).stream(),
+                        getPrivileges(user.getRoles()).stream()
+                ).collect(Collectors.toList())
         );
     }
 
+    private List<SimpleGrantedAuthority> getRoles(List<Role> roles) {
+        return roles.stream()
+                .map(Role::getName)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    private List<SimpleGrantedAuthority> getPrivileges(List<Role> roles) {
+        return roles.stream()
+                .flatMap(role -> role.getPrivileges().stream())
+                .map(privilege -> new SimpleGrantedAuthority(privilege.getName()))
+                .collect(Collectors.toList());
+    }
 }

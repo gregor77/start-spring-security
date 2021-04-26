@@ -8,13 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = StartSecurityApplication.class)
@@ -38,33 +37,33 @@ class CustomUserDetailsServiceTest {
         }
 
         @Test
-        @DisplayName("given user1 is temporary user, when get role, then has only communication authority")
+        @DisplayName("given user1 is temporary user, when get role, then has temporary_user role and communication authority")
         void checkAuthorityAsTemporaryUser() {
             UserDetails user1 = userDetailsService.loadUserByUsername(USER1_EMAIL);
 
             assertThat(user1.getAuthorities())
                     .extracting(GrantedAuthority::getAuthority)
-                    .containsOnly("COMMUNICATION_AUTHORITY");
+                    .contains("ROLE_TEMPORARY_USER", "COMMUNICATION_AUTHORITY");
         }
 
         @Test
-        @DisplayName("given user2 is user, when get role, then has communication, work, task authorities")
+        @DisplayName("given user2 is user, when get role, then has communication, user, temporary_user roles, and work, task authorities")
         void checkAuthorityAsUser() {
             UserDetails user2 = userDetailsService.loadUserByUsername(USER2_EMAIL);
 
             assertThat(user2.getAuthorities())
                     .extracting(GrantedAuthority::getAuthority)
-                    .contains("COMMUNICATION_AUTHORITY", "WORK_AUTHORITY", "TASK_AUTHORITY");
+                    .contains("ROLE_USER", "ROLE_TEMPORARY_USER", "COMMUNICATION_AUTHORITY", "WORK_AUTHORITY", "TASK_AUTHORITY");
         }
 
         @Test
-        @DisplayName("given admin is admin user, when get role, then has all of authorities")
+        @DisplayName("given admin is admin user, when get role, then has all of roles and authorities")
         void checkAuthorityAsAdminUser() {
             UserDetails admin = userDetailsService.loadUserByUsername(ADMIN_EMAIL);
 
             assertThat(admin.getAuthorities())
                     .extracting(GrantedAuthority::getAuthority)
-                    .contains("COMMUNICATION_AUTHORITY", "WORK_AUTHORITY", "TASK_AUTHORITY", "CONFIG_AUTHORITY");
+                    .contains("ROLE_ADMIN", "ROLE_USER", "ROLE_TEMPORARY_USER", "COMMUNICATION_AUTHORITY", "WORK_AUTHORITY", "TASK_AUTHORITY", "CONFIG_AUTHORITY");
         }
     }
 }
