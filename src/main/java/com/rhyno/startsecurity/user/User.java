@@ -1,6 +1,7 @@
 package com.rhyno.startsecurity.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rhyno.startsecurity.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     @Column
     private String email;
 
+    @JsonIgnore
     @Column
     private String password;
 
