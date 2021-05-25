@@ -5,8 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-public class SamplePasswordEncoder {
+@Component
+public class SamplePasswordEncoder implements PasswordEncoder{
     public static BCryptPasswordEncoder bCryptPasswordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
@@ -42,5 +44,29 @@ public class SamplePasswordEncoder {
         }
 
         return "{" + type.getType() + "}" + passwordEncoder.encode(password);
+    }
+
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return bCryptPasswordEncoder().encode(rawPassword);
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        String encodedPasswordWithoutType = getEncodedPasswordWithoutEncodingType(encodedPassword);
+        return bCryptPasswordEncoder().matches(rawPassword, encodedPasswordWithoutType);
+    }
+
+    @Override
+    public boolean upgradeEncoding(String encodedPassword) {
+        return bCryptPasswordEncoder().upgradeEncoding(encodedPassword);
+    }
+
+    public String getEncodedPasswordWithoutEncodingType(String encodedPasswordWithType) {
+        int lastIndex = encodedPasswordWithType.indexOf("}");
+        if (lastIndex < 0) {
+            return encodedPasswordWithType;
+        }
+        return encodedPasswordWithType.substring(lastIndex + 1);
     }
 }

@@ -21,9 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.getUser(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User is not found. email=" + email));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userService.getUser(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User is not found. email=" + username));
 
         user.setAuthorities(
                 Stream.concat(
